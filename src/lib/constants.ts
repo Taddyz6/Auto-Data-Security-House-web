@@ -167,13 +167,3 @@ export const assessmentOptions = {
     "其他",
   ],
 };
-
-export const leadStatusLabel = {
-  new: "新提交",
-  contacted: "已联系",
-  qualifying: "需求确认中",
-  demo_scheduled: "已安排演示",
-  visit_scheduled: "已安排参观",
-  no_demand: "暂无需求",
-  closed: "已关闭",
-} as const;

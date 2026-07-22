@@ -10,7 +10,12 @@ import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Select } from "@/components/ui/select";
 import { z } from "zod";
-import { useRouter } from "next/navigation";
+import {
+  calculateAssessment as scoreAssessment,
+  type AssessmentInput,
+  type AssessmentResult,
+} from "@/lib/assessment-score";
+import { AssessmentResultView } from "@/components/public/assessment-result";
 
 type Values = z.infer<typeof assessmentSchema>;
 
@@ -30,10 +35,12 @@ const ternaryOptions = [
 ];
 
 export function AssessmentForm() {
-  const router = useRouter();
   const [step, setStep] = useState(0);
   const [error, setError] = useState("");
-  const [submitting, setSubmitting] = useState(false);
+  const [completed, setCompleted] = useState<{
+    input: AssessmentInput;
+    result: AssessmentResult;
+  } | null>(null);
   const form = useForm<Values>({
     resolver: zodResolver(assessmentSchema),
     defaultValues: {
@@ -64,26 +71,21 @@ export function AssessmentForm() {
   const multipleCountriesValue =
     useWatch({ control: form.control, name: "multipleCountries" }) ?? false;
 
-  async function submit(values: Values) {
-    setSubmitting(true);
+  function submit(values: Values) {
     setError("");
     try {
-      const response = await fetch("/api/assessment", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(values),
-      });
-      const data = await response.json();
-      if (!response.ok) {
-        setError(data.error ?? "提交失败，请稍后重试。");
-        return;
-      }
-      router.push(`/assessment/result/${data.assessmentId}`);
+      const result = scoreAssessment(values);
+      setCompleted({ input: values, result });
     } catch {
-      setError("网络异常，请稍后重试。");
-    } finally {
-      setSubmitting(false);
+      setError("生成模拟结果失败，请检查填写内容后重试。");
     }
+  }
+
+  function resetAssessment() {
+    form.reset();
+    setStep(0);
+    setError("");
+    setCompleted(null);
   }
 
   async function next() {
@@ -98,6 +100,16 @@ export function AssessmentForm() {
     const valid = await form.trigger(fieldsByStep[step]);
     if (!valid) return;
     if (step < steps.length - 1) setStep((value) => value + 1);
+  }
+
+  if (completed) {
+    return (
+      <AssessmentResultView
+        input={completed.input}
+        result={completed.result}
+        onReset={resetAssessment}
+      />
+    );
   }
 
   return (
@@ -248,9 +260,7 @@ export function AssessmentForm() {
             上一步
           </Button>
           {step === steps.length - 1 ? (
-            <Button type="submit" disabled={submitting}>
-              {submitting ? "生成中..." : "查看模拟结果"}
-            </Button>
+            <Button type="submit">查看模拟结果</Button>
           ) : (
             <Button type="button" onClick={next}>
               下一步
