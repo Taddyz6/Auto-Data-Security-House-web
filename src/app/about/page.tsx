@@ -1,4 +1,4 @@
-import { db } from "@/lib/db";
+import { faqItems } from "@/lib/public-content";
 import { Card } from "@/components/ui/card";
 import { Section } from "@/components/section";
 
@@ -28,8 +28,7 @@ export const metadata = {
   title: "认识安全屋",
 };
 
-export default async function AboutPage() {
-  const faqs = await db.faqItem.findMany({ where: { published: true }, orderBy: { sortOrder: "asc" } });
+export default function AboutPage() {
   return (
     <div>
       <Section title="为什么需要安全屋" description="用一页解释汽车行业数据跨境中的核心难点与安全屋的作用边界。">
@@ -61,7 +60,7 @@ export default async function AboutPage() {
       </Section>
       <Section title="常见问题">
         <div className="space-y-4">
-          {faqs.map((item) => (
+          {faqItems.map((item) => (
             <Card key={item.id} className="p-5">
               <h3 className="text-lg font-semibold">{item.question}</h3>
               <p className="mt-2 text-sm leading-7 text-slate-600">{item.answer}</p>

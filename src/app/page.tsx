@@ -1,8 +1,7 @@
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
-import { db } from "@/lib/db";
-import { getSiteSettings } from "@/lib/site";
 import { scenarios } from "@/lib/constants";
+import { caseItems, faqItems, siteSettings } from "@/lib/public-content";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { Card } from "@/components/ui/card";
@@ -74,13 +73,7 @@ const capabilities = [
   },
 ] as const;
 
-export default async function HomePage() {
-  const [settings, cases, faqs] = await Promise.all([
-    getSiteSettings(),
-    db.caseItem.findMany({ where: { published: true }, orderBy: { sortOrder: "asc" }, take: 3 }),
-    db.faqItem.findMany({ where: { published: true }, orderBy: { sortOrder: "asc" }, take: 4 }),
-  ]);
-
+export default function HomePage() {
   return (
     <div>
       <section className="hero-grid relative overflow-hidden">
@@ -100,8 +93,7 @@ export default async function HomePage() {
                 <span className="block text-gradient-brand">在安全边界内高效运行</span>
               </h1>
               <p className="mt-6 max-w-2xl text-lg leading-8 text-slate-300">
-                {settings.homeHeroSubtitle ??
-                  "面向跨国研发、海外路试、车联网运营、电池碳数据和全球供应链场景，提供数据识别、合规预审、安全传输、风险监测和存证审计的一体化能力展示。"}
+                {siteSettings.homeHeroSubtitle}
               </p>
               <div className="mt-8 flex flex-wrap gap-3 text-sm text-slate-300">
                 {["合规预审", "链路管控", "持续监测", "可信存证"].map((item) => (
@@ -202,7 +194,7 @@ export default async function HomePage() {
         <ScrollReveal>
           <div className="grid gap-6 lg:grid-cols-2">
             <div className="space-y-4">
-              {cases.map((item) => (
+              {caseItems.slice(0, 3).map((item) => (
                 <Card key={item.id} className="p-5">
                   <p className="text-sm text-cyan-300">脱敏案例 · {item.enterpriseType}</p>
                   <h3 className="mt-2 text-lg font-semibold text-white">{item.title}</h3>
@@ -211,7 +203,7 @@ export default async function HomePage() {
               ))}
             </div>
             <div className="space-y-4">
-              {faqs.map((item) => (
+              {faqItems.slice(0, 4).map((item) => (
                 <Card key={item.id} className="p-5">
                   <h3 className="text-base font-semibold text-white">{item.question}</h3>
                   <p className="mt-2 text-sm leading-7 text-slate-300">{item.answer}</p>
