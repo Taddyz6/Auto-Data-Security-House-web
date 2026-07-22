@@ -20,6 +20,8 @@ describe("public page content", () => {
 
     expect(contact).not.toContain("联系说明");
     expect(footer).not.toContain("不处理企业真实跨境数据");
+    expect(footer).toContain("https://github.com/Taddyz6/Auto-Data-Security-House-web");
+    expect(footer).toContain('rel="noreferrer"');
     expect(home).not.toContain("<SiteDisclaimer compact />");
     expect(about).not.toContain('title="合规提示"');
     expect(assessment).not.toContain('title="结果边界"');

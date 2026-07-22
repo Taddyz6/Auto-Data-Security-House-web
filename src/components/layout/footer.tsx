@@ -25,6 +25,14 @@ export function Footer() {
             <span>{companyName}</span>
             <Link href="/privacy">隐私声明</Link>
             <Link href="/disclaimer">免责声明</Link>
+            <a
+              href="https://github.com/Taddyz6/Auto-Data-Security-House-web"
+              target="_blank"
+              rel="noreferrer"
+              className="transition-colors hover:text-cyan-200"
+            >
+              GitHub
+            </a>
             <span>备案信息占位</span>
           </div>
         </div>
