@@ -6,6 +6,8 @@ import { processSamples, processSteps } from "@/lib/constants";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
+import { RuleMatchDetails } from "@/components/public/rule-match-details";
+import { getProcessAdvanceDelay } from "@/lib/process-auto-play";
 import { cn } from "@/lib/utils";
 
 const stepDetails = [
@@ -35,7 +37,7 @@ const stepDetails = [
   },
   {
     input: "数据类型标签、目的地、场景、接收方属性。",
-    action: "匹配境内外规则关注点，生成需重点审查的事项。",
+    action: "匹配国内规则关注点，生成需重点审查的事项。",
     output: "规则关注清单与风险提示。",
     risk: "若场景跨多国家，单一规则模板可能不足以覆盖全部要求。",
   },
@@ -102,11 +104,14 @@ export function ProcessDemo() {
   const [activeSample, setActiveSample] =
     useState<keyof typeof processSamples>("blueprint");
   const [activeStep, setActiveStep] = useState(0);
+  const [manualPauseActive, setManualPauseActive] = useState(false);
+  const [manualResetKey, setManualResetKey] = useState(0);
 
   useEffect(() => {
     if (reduce) return;
 
-    const timer = window.setInterval(() => {
+    const timer = window.setTimeout(() => {
+      setManualPauseActive(false);
       setActiveStep((value) => {
         const nextStep = (value + 1) % processSteps.length;
         if (nextStep === 0) {
@@ -117,12 +122,18 @@ export function ProcessDemo() {
         }
         return nextStep;
       });
-    }, 2200);
+    }, getProcessAdvanceDelay(manualPauseActive));
 
-    return () => window.clearInterval(timer);
-  }, [reduce]);
+    return () => window.clearTimeout(timer);
+  }, [activeStep, manualPauseActive, manualResetKey, reduce]);
 
   const currentSample = processSamples[activeSample];
+
+  function handleStepSelect(index: number) {
+    setActiveStep(index);
+    setManualPauseActive(true);
+    setManualResetKey((value) => value + 1);
+  }
 
   return (
     <div className="grid gap-6 lg:grid-cols-[360px_1fr]">
@@ -173,7 +184,7 @@ export function ProcessDemo() {
                 <button
                   key={step}
                   type="button"
-                  onClick={() => setActiveStep(index)}
+                  onClick={() => handleStepSelect(index)}
                   className={cn(
                     "flex w-full items-center gap-4 rounded-[22px] border px-4 py-3 text-left transition",
                     index === activeStep
@@ -223,12 +234,16 @@ export function ProcessDemo() {
               <h4 className="mt-2 text-2xl font-semibold text-white">
                 {processSteps[activeStep]}
               </h4>
-              <div className="mt-6 grid gap-4 md:grid-cols-2">
-                <InfoCard label="主要输入" value={stepDetails[activeStep].input} />
-                <InfoCard label="系统动作" value={stepDetails[activeStep].action} />
-                <InfoCard label="可能输出" value={stepDetails[activeStep].output} />
-                <InfoCard label="风险点" value={stepDetails[activeStep].risk} />
-              </div>
+              {activeStep === 4 ? (
+                <RuleMatchDetails />
+              ) : (
+                <div className="mt-6 grid gap-4 md:grid-cols-2">
+                  <InfoCard label="主要输入" value={stepDetails[activeStep].input} />
+                  <InfoCard label="系统动作" value={stepDetails[activeStep].action} />
+                  <InfoCard label="可能输出" value={stepDetails[activeStep].output} />
+                  <InfoCard label="风险点" value={stepDetails[activeStep].risk} />
+                </div>
+              )}
             </motion.div>
           </div>
         </div>
