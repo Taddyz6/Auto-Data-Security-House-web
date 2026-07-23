@@ -3,6 +3,7 @@ import { join } from "node:path";
 import { renderToStaticMarkup } from "react-dom/server";
 import { describe, expect, it } from "vitest";
 import { RuleMatchDetails } from "@/components/public/rule-match-details";
+import { processSteps } from "@/lib/constants";
 
 describe("RuleMatchDetails", () => {
   it("渲染法规、十个地区和边界提示", () => {
@@ -30,5 +31,15 @@ describe("RuleMatchDetails", () => {
     expect(processSource).toContain('import { RuleMatchDetails }');
     expect(processSource).toContain("activeStep === 4");
     expect(processSource).toContain("<RuleMatchDetails />");
+  });
+
+  it("第 5 步只称国内规则匹配", () => {
+    const processSource = readFileSync(
+      join(process.cwd(), "src/components/public/process-demo.tsx"),
+      "utf8",
+    );
+
+    expect(processSteps[4]).toBe("国内规则匹配");
+    expect(processSource).not.toContain("境内外规则");
   });
 });
