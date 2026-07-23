@@ -39,4 +39,11 @@ describe("pure static site architecture", () => {
     expect(assessmentForm).not.toContain("localStorage");
     expect(publicContent).toContain("/downloads/data-cross-border-security-foundation-v1.1.pdf");
   });
+
+  it("does not append an important notice section to the process page", () => {
+    const processPage = source("src/app/process/page.tsx");
+
+    expect(processPage).not.toContain("SiteDisclaimer");
+    expect(processPage).not.toContain('title="重要提示"');
+  });
 });
