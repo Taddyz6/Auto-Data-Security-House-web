@@ -7,6 +7,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { RuleMatchDetails } from "@/components/public/rule-match-details";
+import { getProcessAdvanceDelay } from "@/lib/process-auto-play";
 import { cn } from "@/lib/utils";
 
 const stepDetails = [
@@ -103,11 +104,14 @@ export function ProcessDemo() {
   const [activeSample, setActiveSample] =
     useState<keyof typeof processSamples>("blueprint");
   const [activeStep, setActiveStep] = useState(0);
+  const [manualPauseActive, setManualPauseActive] = useState(false);
+  const [manualResetKey, setManualResetKey] = useState(0);
 
   useEffect(() => {
     if (reduce) return;
 
-    const timer = window.setInterval(() => {
+    const timer = window.setTimeout(() => {
+      setManualPauseActive(false);
       setActiveStep((value) => {
         const nextStep = (value + 1) % processSteps.length;
         if (nextStep === 0) {
@@ -118,12 +122,18 @@ export function ProcessDemo() {
         }
         return nextStep;
       });
-    }, 2200);
+    }, getProcessAdvanceDelay(manualPauseActive));
 
-    return () => window.clearInterval(timer);
-  }, [reduce]);
+    return () => window.clearTimeout(timer);
+  }, [activeStep, manualPauseActive, manualResetKey, reduce]);
 
   const currentSample = processSamples[activeSample];
+
+  function handleStepSelect(index: number) {
+    setActiveStep(index);
+    setManualPauseActive(true);
+    setManualResetKey((value) => value + 1);
+  }
 
   return (
     <div className="grid gap-6 lg:grid-cols-[360px_1fr]">
@@ -174,7 +184,7 @@ export function ProcessDemo() {
                 <button
                   key={step}
                   type="button"
-                  onClick={() => setActiveStep(index)}
+                  onClick={() => handleStepSelect(index)}
                   className={cn(
                     "flex w-full items-center gap-4 rounded-[22px] border px-4 py-3 text-left transition",
                     index === activeStep
