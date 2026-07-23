@@ -28,6 +28,8 @@ describe("public page content", () => {
     expect(home).toContain("行业场景与治理实践");
     expect(home).toContain("生成结构化风险诊断与改进建议");
     expect(cases).toContain("行业场景案例");
+    expect(cases).toContain("本页面所列资料均面向公众开放，可直接查阅或下载，无需注册或提交个人信息。");
+    expect(cases).not.toContain("公开资料通过静态文件直接提供下载，不收集或记录下载信息。");
     expect(cases).not.toContain("MVP 使用脱敏案例或示例案例");
     expect(header).toContain("<CatarcWordmark");
     expect(header).not.toContain(">CATARC<");

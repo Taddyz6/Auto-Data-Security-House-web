@@ -52,7 +52,7 @@ export default function CasesPage() {
           <Card className="p-6 text-sm text-slate-600">相关能力与成果持续建设中。</Card>
         )}
       </Section>
-      <Section title="资料下载" description="公开资料通过静态文件直接提供下载，不收集或记录下载信息。">
+      <Section title="资料下载" description="本页面所列资料均面向公众开放，可直接查阅或下载，无需注册或提交个人信息。">
         <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
           {downloadResources.map((item) => (
             <Card key={item.id} className="p-6">
