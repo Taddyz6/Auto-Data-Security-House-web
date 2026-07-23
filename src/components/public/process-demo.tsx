@@ -6,6 +6,7 @@ import { processSamples, processSteps } from "@/lib/constants";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
+import { RuleMatchDetails } from "@/components/public/rule-match-details";
 import { cn } from "@/lib/utils";
 
 const stepDetails = [
@@ -223,12 +224,16 @@ export function ProcessDemo() {
               <h4 className="mt-2 text-2xl font-semibold text-white">
                 {processSteps[activeStep]}
               </h4>
-              <div className="mt-6 grid gap-4 md:grid-cols-2">
-                <InfoCard label="主要输入" value={stepDetails[activeStep].input} />
-                <InfoCard label="系统动作" value={stepDetails[activeStep].action} />
-                <InfoCard label="可能输出" value={stepDetails[activeStep].output} />
-                <InfoCard label="风险点" value={stepDetails[activeStep].risk} />
-              </div>
+              {activeStep === 4 ? (
+                <RuleMatchDetails />
+              ) : (
+                <div className="mt-6 grid gap-4 md:grid-cols-2">
+                  <InfoCard label="主要输入" value={stepDetails[activeStep].input} />
+                  <InfoCard label="系统动作" value={stepDetails[activeStep].action} />
+                  <InfoCard label="可能输出" value={stepDetails[activeStep].output} />
+                  <InfoCard label="风险点" value={stepDetails[activeStep].risk} />
+                </div>
+              )}
             </motion.div>
           </div>
         </div>
