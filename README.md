@@ -6,14 +6,14 @@
 
 面向汽车行业的数据跨境安全展示、流程演示、企业自测与合规科普平台。
 
-[![在线访问](https://img.shields.io/badge/在线访问-打开网站-22c55e?style=for-the-badge\&logo=cloudflare)](https://adsh-web.zhangtaddy.workers.dev)
+[![在线访问](https://img.shields.io/badge/在线访问-打开网站-22c55e?style=for-the-badge\&logo=cloudflare)](https://adsh-web.taddyz6.workers.dev/)
 [![Next.js](https://img.shields.io/badge/Next.js-16-black?style=flat-square\&logo=next.js)](https://nextjs.org/)
 [![React](https://img.shields.io/badge/React-19-61DAFB?style=flat-square\&logo=react\&logoColor=black)](https://react.dev/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5-3178C6?style=flat-square\&logo=typescript\&logoColor=white)](https://www.typescriptlang.org/)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-4-06B6D4?style=flat-square\&logo=tailwindcss\&logoColor=white)](https://tailwindcss.com/)
 [![Cloudflare](https://img.shields.io/badge/部署平台-Cloudflare-F38020?style=flat-square\&logo=cloudflare\&logoColor=white)](https://www.cloudflare.com/)
 
-[在线预览](https://adsh-web.zhangtaddy.workers.dev) · [项目功能](#项目功能) · [技术栈](#技术栈) · [本地运行](#本地运行) · [部署说明](#部署说明)
+[在线预览](https://adsh-web.taddyz6.workers.dev/) · [项目功能](#项目功能) · [技术栈](#技术栈) · [本地运行](#本地运行) · [部署说明](#部署说明)
 
 </div>
 
@@ -35,6 +35,9 @@
 平台采用纯前端静态架构，不依赖数据库和后端服务，可部署到 Cloudflare、GitHub Pages、Vercel、Netlify、Nginx 等平台。
 
 > **免责声明：** 本项目仅用于业务展示、行业科普、方案演示和企业内部初步参考，不构成正式法律意见、监管结论、合规认证或官方评估结果。
+> Copyright © 2026 Taddyz6. All Rights Reserved.
+
+本项目的源代码、界面设计、业务流程、文档及相关素材均受版权保护。未经版权所有者书面授权，不得复制、修改、分发、公开展示、出售、转授权或用于任何商业用途。
 
 ---
 
@@ -42,7 +45,7 @@
 
 项目已部署至 Cloudflare：
 
-### https://adsh-web.zhangtaddy.workers.dev
+### https://adsh-web.taddyz6.workers.dev/
 
 ---
 
