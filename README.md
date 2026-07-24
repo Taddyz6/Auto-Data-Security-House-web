@@ -131,33 +131,6 @@
 * 常见问题
 * 企业资质与专业能力
 
----
-
-## 项目截图
-
-可以将网站截图放入以下目录：
-
-```text
-public/screenshots/
-```
-
-然后在 README 中添加：
-
-```md
-![首页](public/screenshots/homepage.png)
-![企业自测](public/screenshots/assessment.png)
-```
-
-建议添加以下截图：
-
-* 首页主视觉
-* 动态世界地图
-* 跨境流程页面
-* 企业自测页面
-* 自测结果页面
-* 手机端页面
-
----
 
 ## 页面特点
 
